@@ -26,8 +26,8 @@ logger.addHandler(console_handler)
 logger.propagate = False
 
 model = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0,
+    model="gpt-4o",
+    temperature=0.3,
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
@@ -63,10 +63,10 @@ async def main():
                     print("Goodbye...")
                     break
                 
-                if len(user_input) > 1750000:
+                if len(user_input) > 128000:
                     logger.warn("message length exceeded limits, message will be truncated")
                     
-                messages.append({"role":"user", "content":user_input[:175000]})
+                messages.append({"role":"user", "content":user_input[:128000]})
                 
                 try: 
                     agent_response = await agent.ainvoke({"messages": messages})
